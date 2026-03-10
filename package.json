@@ -12,5 +12,8 @@
     "@astrojs/cloudflare": "^12.6.13",
     "@astrojs/sitemap": "^3.7.0",
     "astro": "^5.17.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.60.0"
   }
 }
