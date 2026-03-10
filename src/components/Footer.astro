@@ -1,0 +1,33 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <p class="copyright">&copy; {year} Argent Works LLC. All rights reserved.</p>
+</footer>
+
+<style>
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid rgba(30, 160, 255, 0.15);
+    background-color: var(--color-smoke);
+  }
+
+  .tagline {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--color-mist);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+  }
+
+  .copyright {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: var(--color-mist);
+    opacity: 0.6;
+    margin: 0;
+  }
+</style>

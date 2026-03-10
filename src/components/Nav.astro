@@ -1,0 +1,141 @@
+---
+const pathname = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/submissions/', label: 'Submissions' },
+  { href: '/contact/', label: 'Contact' },
+];
+---
+
+<header id="site-header">
+  <nav>
+    <div class="nav-left">
+      <div class="header-orb" id="header-orb"></div>
+      <a href="/" class="site-name">Scrying Glass</a>
+    </div>
+    <ul>
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[{ active: pathname === href }]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .header-orb {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 35% 35%,
+      rgba(40, 180, 255, 0.5) 0%,
+      rgba(20, 120, 220, 0.2) 40%,
+      rgba(8, 15, 30, 0.95) 75%,
+      #0a0f1e 100%
+    );
+    box-shadow:
+      0 0 8px rgba(30, 160, 255, 0.3),
+      0 0 20px rgba(30, 160, 255, 0.1);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    flex-shrink: 0;
+  }
+
+  .header-orb.visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: headerOrbPulse 3s ease-in-out infinite;
+  }
+
+  .site-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-bone);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .site-name:hover {
+    color: var(--color-crystal);
+  }
+
+  ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  ul a {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-mist);
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease;
+  }
+
+  ul a:hover {
+    color: var(--color-gold);
+  }
+
+  ul a.active {
+    color: var(--color-crystal);
+    border-bottom-color: var(--color-crystal);
+  }
+
+  @keyframes headerOrbPulse {
+    0%, 100% {
+      box-shadow:
+        0 0 8px rgba(30, 160, 255, 0.3),
+        0 0 20px rgba(30, 160, 255, 0.1);
+    }
+    50% {
+      box-shadow:
+        0 0 12px rgba(30, 160, 255, 0.5),
+        0 0 30px rgba(30, 160, 255, 0.2);
+    }
+  }
+
+  @media (max-width: 480px) {
+    nav {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    ul {
+      gap: 1rem;
+    }
+  }
+</style>

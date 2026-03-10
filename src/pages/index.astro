@@ -1,17 +1,125 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GlassOrb from "../components/GlassOrb.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Scrying Glass ~ Sword & Sorcery Fiction">
+  <section class="hero">
+    <h1>Scrying Glass</h1>
+    <p class="subtitle">
+      Peer beyond the veil. Fiction for the bold and the doomed.
+    </p>
+    <div id="orb-wrapper">
+      <GlassOrb size="14rem" />
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="section">
+    <h2>Peer Into the Glass</h2>
+    <p>
+      <em>Scrying Glass</em> is a literary magazine that offers a glimpse into worlds
+      just beyond the veil. We publish dark fantasy and sword & sorcery - tales of
+      epic deeds, ancient sorceries, and questionable heroism.
+    </p>
+    <p>
+      We believe that fantasy should be fantastic and lead the reader to myriad
+      planes beyond our own. To peer into the glass is to escape the mundane,
+      the banal, the normal.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Cast A Spell With Us</h2>
+    <p>
+      We're looking for stories that feature fierce action, vivid magic, and
+      dark humour. Some of our favorite literary spellcasters are Michael
+      Moorcock, Jack Vance, CL Moore, Michael Shea, Tanith Lee, Robert E Howard,
+      Charles Saunders, and Darrell Schweitzer...among many others.
+    </p>
+    <p>
+      Currently, we're seeking standalone stories with a length of 1,000 - 5,000
+      words. Shorter flash fiction and poetry may also be considered. We aren't
+      looking for longer, serializable stories right now, but may be in the
+      future.
+    </p>
+    <p>
+      Scrying Glass is an inclusive publication. We have zero tolerance for
+      bigotry and prejudice. While we appreciate the works of Robert E Howard,
+      HP Lovecraft, and others of that time, their racism should stay dead in
+      the past.
+    </p>
+  </section>
+
+  <section class="cta">
+    <h2>Cast Your Spell</h2>
+    <p>
+      <a href="/submissions/">Read our submission guidelines</a> and send us your
+      best.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: linear-gradient(
+      135deg,
+      var(--color-bone) 0%,
+      var(--color-gold) 50%,
+      var(--color-bone) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #orb-wrapper {
+    transition:
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.4s ease;
+  }
+
+  #orb-wrapper.in-header {
+    opacity: 0;
+    transform: scale(0.3) translateY(-40px);
+    pointer-events: none;
+  }
+
+  .subtitle {
+    font-style: italic;
+    color: var(--color-mist);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
+
+  .cta {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-obsidian);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(30, 160, 255, 0.2);
+  }
+
+  .cta h2 {
+    margin-top: 0;
+  }
+
+  .cta a {
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Scrying Glass — A literary journal of sword & sorcery fiction.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const header = document.getElementById('site-header')!;
+      const headerOrb = document.getElementById('header-orb')!;
+      const orbWrapper = document.getElementById('orb-wrapper');
+
+      let orbHidden = false;
+      const hasOrbPedestal = !!orbWrapper;
+
+      // On non-homepage pages, show the header orb immediately
+      if (!hasOrbPedestal) {
+        headerOrb.classList.add('visible');
+      }
+
+      function onScroll() {
+        const scrolled = window.scrollY > 20;
+        header.classList.toggle('scrolled', scrolled);
+
+        // Only do orb transfer if the pedestal orb exists (homepage)
+        if (!hasOrbPedestal) return;
+
+        const wrapperRect = orbWrapper!.getBoundingClientRect();
+        const shouldTransfer = wrapperRect.bottom < 80;
+
+        if (shouldTransfer && !orbHidden) {
+          orbHidden = true;
+          orbWrapper!.classList.add('in-header');
+          headerOrb.classList.add('visible');
+        } else if (!shouldTransfer && orbHidden) {
+          orbHidden = false;
+          orbWrapper!.classList.remove('in-header');
+          headerOrb.classList.remove('visible');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    </script>
+  </body>
+</html>

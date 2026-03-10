@@ -1,0 +1,141 @@
+/* ===== Scrying Glass — Global Styles ===== */
+
+:root {
+  --color-void: #0a0a0f;
+  --color-obsidian: #141420;
+  --color-smoke: #1e1e2e;
+  --color-ember: #c45e2c;
+  --color-gold: #d4a843;
+  --color-mist: #b8b8cc;
+  --color-bone: #e8e0d4;
+  --color-crystal: #2eb8ff;
+
+  --font-heading: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+  --font-ui: system-ui, -apple-system, sans-serif;
+
+  --max-width: 42rem;
+}
+
+/* ===== Reset ===== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-mist);
+  background-color: var(--color-void);
+  line-height: 1.7;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  min-height: calc(100dvh - 8rem);
+}
+
+/* ===== Typography ===== */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--color-bone);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 0.04em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--color-crystal);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 0.35rem;
+}
+
+em {
+  color: var(--color-bone);
+  font-style: italic;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-bone);
+  margin: 2rem 0;
+}
+
+/* ===== Sticky Header ===== */
+
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-smoke);
+  border-bottom: 1px solid rgba(30, 160, 255, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+#site-header.scrolled {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(30, 160, 255, 0.05);
+}
+
+/* ===== Utility ===== */
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.accent {
+  color: var(--color-ember);
+}
+
+.highlight {
+  color: var(--color-gold);
+}
