@@ -1,0 +1,492 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const maxFileSizeMB = 10;
+const acceptedExtensions = ".doc,.docx,.rtf,.pdf,.odt,.txt";
+const acceptedMimeTypes =
+  "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/rtf,application/pdf,application/vnd.oasis.opendocument.text,text/plain";
+---
+
+<BaseLayout
+  title="Submit Your Story — Scrying Glass"
+  description="Submit your sword & sorcery, dark fantasy, or weird fiction manuscript to Scrying Glass."
+>
+  <h1>Submit Your Story</h1>
+
+  <p class="intro">
+    Ready to send your tale into the glass? Fill out the form below. Make sure
+    you've reviewed our <a href="/submissions/">submission guidelines</a> first.
+  </p>
+
+  <form id="submission-form" novalidate>
+    <div class="form-group">
+      <label for="author-name">Author Name <span class="required">*</span></label>
+      <input
+        type="text"
+        id="author-name"
+        name="authorName"
+        required
+        placeholder="Your name or pen name"
+        autocomplete="name"
+      />
+      <p class="field-error" id="author-name-error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email <span class="required">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        placeholder="you@example.com"
+        autocomplete="email"
+      />
+      <p class="field-error" id="email-error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="story-title">Story Title <span class="required">*</span></label>
+      <input
+        type="text"
+        id="story-title"
+        name="storyTitle"
+        required
+        placeholder="The title of your manuscript"
+      />
+      <p class="field-error" id="story-title-error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="manuscript">
+        Manuscript <span class="required">*</span>
+      </label>
+      <div class="file-upload-area" id="file-upload-area">
+        <input
+          type="file"
+          id="manuscript"
+          name="manuscript"
+          required
+          accept={`${acceptedExtensions},${acceptedMimeTypes}`}
+        />
+        <div class="file-upload-content">
+          <span class="file-upload-icon">&#x1F4DC;</span>
+          <p class="file-upload-text">
+            <strong>Choose a file</strong> or drag it here
+          </p>
+          <p class="file-upload-hint">
+            .doc, .docx, .rtf, .pdf, .odt, or .txt — max {maxFileSizeMB}MB
+          </p>
+        </div>
+        <div class="file-upload-selected" id="file-selected" hidden>
+          <span class="file-name" id="file-name"></span>
+          <button type="button" class="file-remove" id="file-remove" aria-label="Remove file">&times;</button>
+        </div>
+      </div>
+      <p class="field-error" id="manuscript-error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="cover-letter">Brief Cover Letter</label>
+      <textarea
+        id="cover-letter"
+        name="coverLetter"
+        rows="4"
+        placeholder="A few sentences about yourself and any publication credits (optional)"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="additional-notes">Anything else we should know?</label>
+      <textarea
+        id="additional-notes"
+        name="additionalNotes"
+        rows="3"
+        placeholder="Simultaneous submission notice, content warnings, etc. (optional)"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">
+      Send Into the Glass
+    </button>
+
+    <div class="form-message" id="form-message" hidden></div>
+  </form>
+</BaseLayout>
+
+<style>
+  h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  form {
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-bone);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .required {
+    color: var(--color-ember);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-bone);
+    background-color: var(--color-obsidian);
+    border: 1px solid rgba(184, 184, 204, 0.2);
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-crystal);
+    box-shadow: 0 0 0 2px rgba(46, 184, 255, 0.15);
+  }
+
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  textarea::placeholder {
+    color: rgba(184, 184, 204, 0.4);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 4rem;
+  }
+
+  /* File upload area */
+  .file-upload-area {
+    position: relative;
+    border: 2px dashed rgba(184, 184, 204, 0.2);
+    border-radius: 0.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .file-upload-area:hover,
+  .file-upload-area.dragover {
+    border-color: var(--color-crystal);
+    background-color: rgba(46, 184, 255, 0.04);
+  }
+
+  .file-upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .file-upload-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .file-upload-text {
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    color: var(--color-mist);
+    margin-bottom: 0.25rem;
+  }
+
+  .file-upload-text strong {
+    color: var(--color-crystal);
+  }
+
+  .file-upload-hint {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: rgba(184, 184, 204, 0.5);
+    margin-bottom: 0;
+  }
+
+  .file-upload-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .file-name {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--color-gold);
+  }
+
+  .file-remove {
+    background: none;
+    border: 1px solid rgba(196, 94, 44, 0.4);
+    color: var(--color-ember);
+    font-size: 1.1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+  }
+
+  .file-remove:hover {
+    background-color: rgba(196, 94, 44, 0.2);
+  }
+
+  /* Validation errors */
+  .field-error {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    color: var(--color-ember);
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    min-height: 0;
+  }
+
+  .form-group.invalid input,
+  .form-group.invalid textarea,
+  .form-group.invalid .file-upload-area {
+    border-color: var(--color-ember);
+  }
+
+  /* Submit button */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 2rem;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--color-void);
+    background: linear-gradient(135deg, var(--color-crystal), var(--color-gold));
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Form message */
+  .form-message {
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .form-message.success {
+    color: var(--color-crystal);
+    background-color: rgba(46, 184, 255, 0.1);
+    border: 1px solid rgba(46, 184, 255, 0.25);
+  }
+
+  .form-message.error {
+    color: var(--color-ember);
+    background-color: rgba(196, 94, 44, 0.1);
+    border: 1px solid rgba(196, 94, 44, 0.25);
+  }
+</style>
+
+<script define:vars={{ maxFileSizeMB, acceptedExtensions }}>
+  const form = document.getElementById("submission-form");
+  const fileInput = document.getElementById("manuscript");
+  const fileUploadArea = document.getElementById("file-upload-area");
+  const fileUploadContent = fileUploadArea.querySelector(".file-upload-content");
+  const fileSelected = document.getElementById("file-selected");
+  const fileNameEl = document.getElementById("file-name");
+  const fileRemoveBtn = document.getElementById("file-remove");
+  const submitBtn = document.getElementById("submit-btn");
+  const formMessage = document.getElementById("form-message");
+
+  const allowedExtensions = acceptedExtensions.split(",");
+  const maxBytes = maxFileSizeMB * 1024 * 1024;
+
+  // Drag-and-drop styling
+  fileUploadArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.add("dragover");
+  });
+  fileUploadArea.addEventListener("dragleave", () => {
+    fileUploadArea.classList.remove("dragover");
+  });
+  fileUploadArea.addEventListener("drop", () => {
+    fileUploadArea.classList.remove("dragover");
+  });
+
+  // File selection handler
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (file) {
+      fileNameEl.textContent = file.name;
+      fileUploadContent.hidden = true;
+      fileSelected.hidden = false;
+      clearError("manuscript");
+    }
+  });
+
+  // Remove file
+  fileRemoveBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    fileInput.value = "";
+    fileUploadContent.hidden = false;
+    fileSelected.hidden = true;
+  });
+
+  // Validation helpers
+  function showError(fieldId, message) {
+    const errorEl = document.getElementById(`${fieldId}-error`);
+    const group = errorEl.closest(".form-group");
+    errorEl.textContent = message;
+    group.classList.add("invalid");
+  }
+
+  function clearError(fieldId) {
+    const errorEl = document.getElementById(`${fieldId}-error`);
+    if (!errorEl) return;
+    const group = errorEl.closest(".form-group");
+    errorEl.textContent = "";
+    group.classList.remove("invalid");
+  }
+
+  function validateFile(file) {
+    if (!file) return "Please select a manuscript file.";
+
+    const ext = "." + file.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(ext)) {
+      return `File type "${ext}" is not accepted. Please upload a ${allowedExtensions.join(", ")} file.`;
+    }
+
+    if (file.size > maxBytes) {
+      return `File is too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum size is ${maxFileSizeMB}MB.`;
+    }
+
+    return null;
+  }
+
+  // Form submission
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    formMessage.hidden = true;
+    let hasError = false;
+
+    // Clear previous errors
+    ["author-name", "email", "story-title", "manuscript"].forEach(clearError);
+
+    // Validate author name
+    const authorName = form.authorName.value.trim();
+    if (!authorName) {
+      showError("author-name", "Author name is required.");
+      hasError = true;
+    }
+
+    // Validate email
+    const email = form.email.value.trim();
+    if (!email) {
+      showError("email", "Email is required.");
+      hasError = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError("email", "Please enter a valid email address.");
+      hasError = true;
+    }
+
+    // Validate story title
+    const storyTitle = form.storyTitle.value.trim();
+    if (!storyTitle) {
+      showError("story-title", "Story title is required.");
+      hasError = true;
+    }
+
+    // Validate file
+    const file = fileInput.files[0];
+    const fileError = validateFile(file);
+    if (fileError) {
+      showError("manuscript", fileError);
+      hasError = true;
+    }
+
+    if (hasError) {
+      // Scroll to first error
+      const firstInvalid = form.querySelector(".form-group.invalid");
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    // TODO: Hook up actual form submission to backend
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    // Simulate submission for now
+    setTimeout(() => {
+      formMessage.textContent =
+        "Your manuscript has been received! We'll be in touch within 60 days.";
+      formMessage.className = "form-message success";
+      formMessage.hidden = false;
+      submitBtn.textContent = "Sent!";
+      form.reset();
+      fileUploadContent.hidden = false;
+      fileSelected.hidden = true;
+      formMessage.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 1000);
+  });
+
+  // Clear errors on input
+  form.querySelectorAll("input, textarea").forEach((el) => {
+    el.addEventListener("input", () => {
+      const group = el.closest(".form-group");
+      const errorEl = group?.querySelector(".field-error");
+      if (errorEl) {
+        errorEl.textContent = "";
+        group.classList.remove("invalid");
+      }
+    });
+  });
+</script>

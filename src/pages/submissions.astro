@@ -11,7 +11,14 @@ const isOpen = true; // Toggle submissions open/closed
   <h1>Submissions</h1>
 
   <div class:list={["status-banner", { open: isOpen, closed: !isOpen }]}>
-    {isOpen ? "Submissions are OPEN" : "Submissions are currently CLOSED"}
+    {isOpen ? (
+      <span>
+        Submissions are <strong>OPEN</strong> —
+        <a href="/submit/" class="banner-link">Submit your story now!</a>
+      </span>
+    ) : (
+      "Submissions are currently CLOSED"
+    )}
   </div>
 
   <section class="section">
@@ -46,7 +53,7 @@ const isOpen = true; // Toggle submissions open/closed
     <h2>Formatting</h2>
     <ul>
       <li>Standard manuscript format</li>
-      <li>Accepted file types: .doc, .docx, .rtf</li>
+      <li>Accepted file types: .doc, .docx, .rtf, .pdf, .odt, .txt</li>
       <li>Double-spaced, 12pt font (Times New Roman or similar)</li>
       <li>
         Include your name (pen names are fine), word count, and story title in
@@ -58,11 +65,9 @@ const isOpen = true; // Toggle submissions open/closed
   <section class="section">
     <h2>How to Submit</h2>
     <p>
-      Send your manuscript as an attachment to
-      <a href="mailto:submissions@scryingglass.pub"
-        >submissions@scryingglass.pub</a
-      >. Include a brief cover letter with your bio (2–3 sentences) and any
-      relevant publication credits.
+      Use our <a href="/submit/">online submission form</a> to send us your
+      manuscript. You're welcome to include a brief cover letter with your bio
+      (2–3 sentences) and any relevant publication credits, but it's not required.
     </p>
     <p>No need for a synopsis — we'd rather be surprised.</p>
   </section>
@@ -122,6 +127,16 @@ const isOpen = true; // Toggle submissions open/closed
     background-color: rgba(30, 160, 255, 0.12);
     color: var(--color-crystal);
     border: 1px solid rgba(30, 160, 255, 0.25);
+  }
+
+  .banner-link {
+    color: var(--color-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .banner-link:hover {
+    color: var(--color-bone);
   }
 
   .status-banner.closed {
