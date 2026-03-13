@@ -13,12 +13,12 @@ const acceptedMimeTypes =
 >
   <h1>Submit Your Story</h1>
 
-  <p class="intro">
+  <p class="intro" id="intro-text">
     Ready to send your tale into the glass? Fill out the form below. Make sure
     you've reviewed our <a href="/submissions/">submission guidelines</a> first.
   </p>
 
-  <form id="submission-form" novalidate>
+  <form id="submission-form" novalidate enctype="multipart/form-data">
     <div class="form-group">
       <label for="author-name">Author Name <span class="required">*</span></label>
       <input
@@ -110,8 +110,9 @@ const acceptedMimeTypes =
       Send Into the Glass
     </button>
 
-    <div class="form-message" id="form-message" hidden></div>
   </form>
+
+  <div class="form-message" id="form-message" hidden></div>
 </BaseLayout>
 
 <style>
@@ -411,7 +412,7 @@ const acceptedMimeTypes =
   }
 
   // Form submission
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     formMessage.hidden = true;
     let hasError = false;
@@ -460,22 +461,51 @@ const acceptedMimeTypes =
       return;
     }
 
-    // TODO: Hook up actual form submission to backend
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending...";
 
-    // Simulate submission for now
-    setTimeout(() => {
+    try {
+      // Read file as base64 for JSON transport
+      const fileBase64 = await new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result.split(",")[1]); };
+        reader.onerror = function() { reject(new Error("Failed to read file.")); };
+        reader.readAsDataURL(file);
+      });
+
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          authorName: authorName,
+          email: email,
+          storyTitle: storyTitle,
+          coverLetter: form.coverLetter.value.trim(),
+          additionalNotes: form.additionalNotes.value.trim(),
+          manuscript: { name: file.name, base64: fileBase64 },
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      form.hidden = true;
+      document.getElementById("intro-text").hidden = true;
       formMessage.textContent =
         "Your manuscript has been received! We'll be in touch within 60 days.";
       formMessage.className = "form-message success";
       formMessage.hidden = false;
-      submitBtn.textContent = "Sent!";
-      form.reset();
-      fileUploadContent.hidden = false;
-      fileSelected.hidden = true;
-      formMessage.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 1000);
+    } catch (err) {
+      formMessage.textContent = err.message || "Submission failed. Please try again.";
+      formMessage.className = "form-message error";
+      formMessage.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Into the Glass";
+    }
+
+    formMessage.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
   // Clear errors on input
