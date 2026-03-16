@@ -15,6 +15,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <a href="mailto:scryingglass@argent.works">scryingglass@argent.works</a>
     </p>
   </section>
+
+  <section class="section">
+    <h2>Mailing List</h2>
+    <p>
+      Sign up to be notified when Scrying Glass is available! We promise not to
+      send you much.
+    </p>
+    <form class="mailing-list-form" id="mailing-list-form">
+      <label for="mailing-list-email" class="sr-only">Email address</label>
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="form-row">
+        <input
+          type="email"
+          id="mailing-list-email"
+          placeholder="your@email.com"
+          required
+        />
+        <button type="submit">Subscribe</button>
+      </div>
+      <div class="cf-turnstile" data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY} data-theme="dark" data-size="compact"></div>
+      <p id="mailing-list-status" class="form-status" hidden></p>
+    </form>
+  </section>
 </BaseLayout>
 
 <style>
@@ -58,4 +81,133 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     opacity: 0.7;
     margin-top: 0.5rem;
   }
+
+  h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .mailing-list-form {
+    margin-top: 1rem;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 28rem;
+  }
+
+  .form-row input[type="email"] {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    border: 1px solid rgba(30, 160, 255, 0.25);
+    border-radius: 0.25rem;
+    background: transparent;
+    color: inherit;
+  }
+
+  .form-row input[type="email"]::placeholder {
+    opacity: 0.5;
+  }
+
+  .form-row button {
+    padding: 0.5rem 1.25rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(30, 160, 255, 0.25);
+    border-radius: 0.25rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .form-row button:hover {
+    background-color: rgba(30, 160, 255, 0.12);
+    color: var(--color-gold);
+  }
+
+  .form-status {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .form-status.error {
+    color: #e55;
+  }
+
+  .form-status.success {
+    color: var(--color-gold);
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+
+  .cf-turnstile {
+    margin-top: 0.75rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 </style>
+
+<script>
+  const form = document.getElementById("mailing-list-form") as HTMLFormElement;
+  const emailInput = document.getElementById("mailing-list-email") as HTMLInputElement;
+  const status = document.getElementById("mailing-list-status") as HTMLParagraphElement;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const button = form.querySelector("button") as HTMLButtonElement;
+    button.disabled = true;
+    status.hidden = true;
+
+    try {
+      const res = await fetch("/api/mailing-list", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailInput.value,
+          website: (form.querySelector('input[name="website"]') as HTMLInputElement).value,
+          "cf-turnstile-response": (form.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement)?.value || "",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        status.textContent = "Thanks for signing up!";
+        status.className = "form-status success";
+        emailInput.value = "";
+      } else {
+        status.textContent = data.error || "Something went wrong.";
+        status.className = "form-status error";
+      }
+    } catch {
+      status.textContent = "Something went wrong. Please try again.";
+      status.className = "form-status error";
+    } finally {
+      status.hidden = false;
+      button.disabled = false;
+    }
+  });
+</script>

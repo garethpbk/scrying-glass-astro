@@ -11,14 +11,18 @@ const isOpen = true; // Toggle submissions open/closed
   <h1>Submissions</h1>
 
   <div class:list={["status-banner", { open: isOpen, closed: !isOpen }]}>
-    {isOpen ? (
-      <span>
-        Submissions are <strong>OPEN</strong> —
-        <a href="/submit/" class="banner-link">Submit your story now!</a>
-      </span>
-    ) : (
-      "Submissions are currently CLOSED"
-    )}
+    {
+      isOpen ? (
+        <span>
+          Submissions are <strong>OPEN</strong> —
+          <a href="/submit/" class="banner-link">
+            Submit your story now!
+          </a>
+        </span>
+      ) : (
+        "Submissions are currently CLOSED"
+      )
+    }
   </div>
 
   <section class="section">
@@ -28,9 +32,8 @@ const isOpen = true; // Toggle submissions open/closed
         >dark fantasy</strong
       >, and
       <strong>weird fiction</strong> — short stories in the tradition of the great
-      pulp fantasists. Think thieves in cursed cities, sorcerers bargaining with things
-      best left unbargained with, and warriors facing odds that no reasonable person
-      would face.
+      pulp fantasists. Think thieves in cursed cities, sorcerers bargaining with eldritch
+      entities better left alone, and warriors facing unreasonable odds.
     </p>
     <ul>
       <li><strong>Word count:</strong> 1,500–5,000 words</li>
@@ -59,15 +62,19 @@ const isOpen = true; // Toggle submissions open/closed
         Include your name (pen names are fine), word count, and story title in
         the document header
       </li>
+      <li>
+        Please take care to format your paragraphs, dialogue, etc. how you'd
+        like to see it in print
+      </li>
     </ul>
   </section>
 
   <section class="section">
     <h2>How to Submit</h2>
     <p>
-      Use our <a href="/submit/">online submission form</a> to send us your
-      manuscript. You're welcome to include a brief cover letter with your bio
-      (2–3 sentences) and any relevant publication credits, but it's not required.
+      Use our <a href="/submit/">online submission form</a> to send us your manuscript.
+      You're welcome to include a brief cover letter with your bio (2–3 sentences)
+      and any relevant publication credits, but it's not required.
     </p>
     <p>No need for a synopsis — we'd rather be surprised.</p>
   </section>
@@ -101,6 +108,20 @@ const isOpen = true; // Toggle submissions open/closed
     <p>
       <strong>Multiple submissions:</strong> One story at a time, please. Let us give
       your tale the attention it deserves.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Visual Art</h2>
+    <p>
+      We intend to solicit visual art submissions and are in the process of
+      determining the printing technique that will limit what we can accept.
+    </p>
+    <p>Keep an eye out for formal art guidelines and a submission form here.</p>
+    <p>
+      In the meantime, if you've got art you think is a good fit, please <a
+        href="/contact/">contact us via email</a
+      > and we'll talk from there.
     </p>
   </section>
 </BaseLayout>
