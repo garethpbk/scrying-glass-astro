@@ -185,6 +185,15 @@ const turnstileSiteKey = import.meta.env.DEV
     button.disabled = true;
     status.hidden = true;
 
+    const turnstileToken = (form.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement)?.value;
+    if (!turnstileToken) {
+      status.textContent = "Please wait for verification to complete.";
+      status.className = "form-status error";
+      status.hidden = false;
+      button.disabled = false;
+      return;
+    }
+
     try {
       const res = await fetch("/api/mailing-list", {
         method: "POST",
@@ -192,7 +201,7 @@ const turnstileSiteKey = import.meta.env.DEV
         body: JSON.stringify({
           email: emailInput.value,
           website: (form.querySelector('input[name="website"]') as HTMLInputElement).value,
-          "cf-turnstile-response": (form.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement)?.value || "",
+          "cf-turnstile-response": turnstileToken,
         }),
       });
 
