@@ -1,5 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const turnstileSiteKey = import.meta.env.DEV
+  ? "1x00000000000000000000AA"
+  : "0x4AAAAAACr1RbHvKjmyFiwf";
 ---
 
 <BaseLayout
@@ -34,7 +38,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         />
         <button type="submit">Subscribe</button>
       </div>
-      <div class="cf-turnstile" data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY} data-theme="dark" data-size="compact"></div>
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" data-size="compact"></div>
       <p id="mailing-list-status" class="form-status" hidden></p>
     </form>
   </section>
