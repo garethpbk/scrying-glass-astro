@@ -96,6 +96,12 @@ const turnstileSiteKey = import.meta.env.DEV
       best.
     </p>
   </section>
+  <div id="easter-egg" class="easter-egg" hidden>
+    <div class="egg-img-wrapper">
+      <img src="/pondering-my-orb.jpg" alt="Pondering my orb" />
+      <div class="egg-shimmer" id="egg-shimmer"></div>
+    </div>
+  </div>
 </BaseLayout>
 
 <style>
@@ -120,6 +126,7 @@ const turnstileSiteKey = import.meta.env.DEV
   }
 
   #orb-wrapper {
+    cursor: pointer;
     transition:
       transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.4s ease;
@@ -241,6 +248,160 @@ const turnstileSiteKey = import.meta.env.DEV
     border: 0;
   }
 
+  .easter-egg {
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .easter-egg[hidden] {
+    display: none;
+  }
+
+  .egg-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.375rem;
+  }
+
+  .easter-egg img {
+    display: block;
+    width: 16rem;
+    border-radius: inherit;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .egg-shimmer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 0, 100, 0.3) 15%,
+      rgba(255, 200, 0, 0.3) 30%,
+      rgba(0, 255, 150, 0.3) 45%,
+      rgba(0, 150, 255, 0.3) 60%,
+      rgba(180, 0, 255, 0.3) 75%,
+      transparent 100%
+    );
+    background-size: 300% 300%;
+    mix-blend-mode: overlay;
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+  }
+
+  .egg-shimmer.active {
+    opacity: 1;
+    animation: shimmer-move 1.5s linear infinite;
+  }
+
+  @keyframes shimmer-move {
+    0% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+  }
+
+  /* Entry animations */
+  @keyframes egg-pop {
+    from { transform: scale(0) rotate(-8deg); opacity: 0; }
+    to { transform: scale(1) rotate(-2deg); opacity: 1; }
+  }
+
+  @keyframes egg-spin {
+    from { transform: scale(0) rotate(-360deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes egg-mega-spin {
+    from { transform: scale(0) rotate(-1080deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes egg-drop {
+    0% { transform: translateY(-80px) scale(0.6); opacity: 0; }
+    60% { transform: translateY(10px) scale(1.05); opacity: 1; }
+    80% { transform: translateY(-4px) scale(0.98); }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  @keyframes egg-wobble {
+    0% { transform: scale(0); opacity: 0; }
+    40% { transform: scale(1.1) rotate(6deg); opacity: 1; }
+    55% { transform: scale(0.95) rotate(-5deg); }
+    70% { transform: scale(1.03) rotate(3deg); }
+    85% { transform: scale(0.99) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes egg-flip-x {
+    from { transform: perspective(400px) rotateX(-90deg) scale(0.8); opacity: 0; }
+    to { transform: perspective(400px) rotateX(0deg) scale(1); opacity: 1; }
+  }
+
+  @keyframes egg-flip-y {
+    from { transform: perspective(400px) rotateY(90deg) scale(0.8); opacity: 0; }
+    to { transform: perspective(400px) rotateY(0deg) scale(1); opacity: 1; }
+  }
+
+  @keyframes egg-elastic {
+    0% { transform: scale(0); opacity: 0; }
+    30% { transform: scale(1.4, 0.6); opacity: 1; }
+    50% { transform: scale(0.7, 1.3); }
+    65% { transform: scale(1.15, 0.85); }
+    80% { transform: scale(0.95, 1.05); }
+    100% { transform: scale(1, 1); opacity: 1; }
+  }
+
+  @keyframes egg-zoom-across {
+    0% { transform: translateX(-200px) scale(0.3) rotate(-30deg); opacity: 0; }
+    70% { transform: translateX(10px) scale(1.05) rotate(2deg); opacity: 1; }
+    100% { transform: translateX(0) scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes egg-rise {
+    0% { transform: translateY(100px) scale(0.5); opacity: 0; }
+    60% { transform: translateY(-10px) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  @keyframes egg-jello {
+    0% { transform: scale(0); opacity: 0; }
+    30% { transform: scale(1) skewX(-12deg) skewY(-12deg); opacity: 1; }
+    40% { transform: skewX(10deg) skewY(10deg); }
+    50% { transform: skewX(-6deg) skewY(-6deg); }
+    65% { transform: skewX(3deg) skewY(3deg); }
+    80% { transform: skewX(-1deg) skewY(-1deg); }
+    100% { transform: skewX(0) skewY(0); opacity: 1; }
+  }
+
+  /* Exit animations */
+  @keyframes egg-fade-out {
+    from { opacity: 1; }
+    to { transform: scale(0.8); opacity: 0; }
+  }
+
+  @keyframes egg-spin-out {
+    from { opacity: 1; transform: rotate(0deg) scale(1); }
+    to { opacity: 0; transform: rotate(360deg) scale(0); }
+  }
+
+  @keyframes egg-yeet {
+    from { opacity: 1; transform: translateX(0) rotate(0deg); }
+    to { opacity: 0; transform: translateX(300px) rotate(45deg); }
+  }
+
+  @keyframes egg-melt {
+    from { opacity: 1; transform: scaleY(1); }
+    to { opacity: 0; transform: scaleY(0) translateY(30px); }
+  }
+
+  @keyframes egg-implode {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+    100% { opacity: 0; transform: scale(0); }
+  }
+
   @media (max-width: 480px) {
     .hero h1 {
       font-size: 2rem;
@@ -306,5 +467,141 @@ const turnstileSiteKey = import.meta.env.DEV
       status.hidden = false;
       button.disabled = false;
     }
+  });
+
+  // Easter egg
+  const orbWrapper = document.getElementById("orb-wrapper") as HTMLDivElement;
+  const egg = document.getElementById("easter-egg") as HTMLDivElement;
+  let eggTimeout: number | null = null;
+
+  const entryAnimations = [
+    "egg-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "egg-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "egg-mega-spin 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "egg-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+    "egg-wobble 0.6s ease",
+    "egg-flip-x 0.4s ease-out",
+    "egg-flip-y 0.4s ease-out",
+    "egg-elastic 0.6s ease",
+    "egg-zoom-across 0.5s ease-out",
+    "egg-rise 0.5s ease-out",
+    "egg-jello 0.7s ease",
+  ];
+
+  const exitAnimations = [
+    "egg-fade-out 0.4s ease",
+    "egg-spin-out 0.5s ease-in",
+    "egg-yeet 0.4s ease-in",
+    "egg-melt 0.5s ease-in",
+    "egg-implode 0.3s ease-in",
+  ];
+
+  const filters = [
+    "none",
+    "none",
+    "hue-rotate(60deg)",
+    "hue-rotate(120deg)",
+    "hue-rotate(180deg)",
+    "hue-rotate(240deg)",
+    "hue-rotate(300deg)",
+    "saturate(3)",
+    "saturate(0)",
+    "sepia(0.8)",
+    "invert(1)",
+    "invert(1) hue-rotate(180deg)",
+    "brightness(1.5) contrast(1.4)",
+    "brightness(0.5) saturate(2)",
+    "contrast(2) saturate(0.5)",
+    "blur(1px) saturate(2)",
+    "drop-shadow(4px 4px 0 rgba(255,0,100,0.6))",
+    "drop-shadow(-3px 3px 0 rgba(0,255,200,0.6))",
+    "drop-shadow(0 0 8px rgba(255,200,0,0.8))",
+    "drop-shadow(2px 2px 0 red) drop-shadow(-2px -2px 0 cyan)",
+  ];
+
+  const borderRadii = [
+    "0.375rem",
+    "0.375rem",
+    "50%",
+    "30% 70% 70% 30% / 30% 30% 70% 70%",
+    "0",
+    "20% 0 20% 0",
+    "50% 0 50% 0",
+  ];
+
+  const shadows = [
+    "0 4px 20px rgba(0, 0, 0, 0.4)",
+    "0 4px 20px rgba(0, 0, 0, 0.4)",
+    "0 0 30px rgba(255, 0, 150, 0.5), 0 0 60px rgba(255, 0, 150, 0.2)",
+    "0 0 30px rgba(0, 255, 200, 0.5), 0 0 60px rgba(0, 255, 200, 0.2)",
+    "0 0 20px rgba(255, 200, 0, 0.6)",
+    "8px 8px 0 rgba(30, 160, 255, 0.4)",
+    "-4px 4px 0 magenta, 4px -4px 0 cyan",
+    "0 0 0 4px var(--color-gold), 0 0 0 8px var(--color-crystal)",
+    "inset 0 0 20px rgba(0,0,0,0.5)",
+  ];
+
+  function pick<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  const eggImg = egg.querySelector("img") as HTMLImageElement;
+  const eggWrapper = egg.querySelector(".egg-img-wrapper") as HTMLDivElement;
+  const eggShimmer = document.getElementById("egg-shimmer") as HTMLDivElement;
+
+  orbWrapper.addEventListener("click", (e) => {
+    if (eggTimeout) {
+      clearTimeout(eggTimeout);
+      eggTimeout = null;
+    }
+
+    // Random rotation — sometimes wild
+    const wildRotation = Math.random() < 0.15;
+    const rotation = wildRotation
+      ? Math.floor(Math.random() * 360)
+      : Math.floor(Math.random() * 50) - 25;
+
+    // Random scale — occasionally huge or tiny
+    const roll = Math.random();
+    let scale;
+    if (roll < 0.1) scale = 0.4 + Math.random() * 0.2;       // tiny
+    else if (roll < 0.2) scale = 1.5 + Math.random() * 0.8;   // huge
+    else scale = 0.8 + Math.random() * 0.5;                    // normal-ish
+
+    egg.hidden = false;
+    egg.style.left = e.pageX + "px";
+    egg.style.top = e.pageY + "px";
+    egg.style.transform = `rotate(${rotation}deg) scale(${scale.toFixed(2)})`;
+
+    // Random visual effects on the image
+    eggImg.style.filter = pick(filters);
+    const radius = pick(borderRadii);
+    eggWrapper.style.borderRadius = radius;
+    eggWrapper.style.boxShadow = pick(shadows);
+
+    // ~40% chance of shimmer
+    if (Math.random() < 0.4) {
+      eggShimmer.classList.add("active");
+    } else {
+      eggShimmer.classList.remove("active");
+    }
+
+    // Random entry animation
+    egg.style.animation = "none";
+    egg.offsetHeight; // force reflow
+    egg.style.animation = pick(entryAnimations) + " forwards";
+
+    // Random exit
+    const exitAnim = pick(exitAnimations);
+    eggTimeout = window.setTimeout(() => {
+      egg.style.animation = exitAnim + " forwards";
+      eggTimeout = window.setTimeout(() => {
+        egg.hidden = true;
+        eggImg.style.filter = "none";
+        eggWrapper.style.borderRadius = "0.375rem";
+        eggWrapper.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.4)";
+        eggShimmer.classList.remove("active");
+      }, 500);
+    }, 2500);
   });
 </script>
