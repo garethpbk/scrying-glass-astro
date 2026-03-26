@@ -12,7 +12,7 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
 ---
 
 <BaseLayout
-  title="Submit — Scrying Glass"
+  title="Submit ~ Scrying Glass"
   description="Submit your sword & sorcery manuscript or visual art to Scrying Glass."
 >
   <h1>Submit Your Work</h1>
@@ -40,7 +40,9 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     </fieldset>
 
     <div class="form-group">
-      <label for="author-name">Author Name <span class="required">*</span></label>
+      <label for="author-name"
+        >Author Name <span class="required">*</span></label
+      >
       <input
         type="text"
         id="author-name"
@@ -67,7 +69,8 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
 
     <div class="form-group" id="story-title-group">
       <label for="story-title">
-        <span id="story-title-label">Story Title</span> <span class="required">*</span>
+        <span id="story-title-label">Story Title</span>
+        <span class="required">*</span>
       </label>
       <input
         type="text"
@@ -102,7 +105,12 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
         </div>
         <div class="file-upload-selected" id="file-selected" hidden>
           <span class="file-name" id="file-name"></span>
-          <button type="button" class="file-remove" id="file-remove" aria-label="Remove file">&times;</button>
+          <button
+            type="button"
+            class="file-remove"
+            id="file-remove"
+            aria-label="Remove file">&times;</button
+          >
         </div>
       </div>
       <p class="field-error" id="manuscript-error"></p>
@@ -123,9 +131,10 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
         Art Attachment <span class="required" id="art-req" hidden>*</span>
       </label>
       <p class="field-hint" id="art-hint">
-        Optional — if you have visual art to accompany your story, attach it here.
-        We print in <strong>single-color risograph</strong>, so complex multi-color works may not reproduce well.
-        High-contrast, bold linework tends to look best.
+        Optional — if you have visual art to accompany your story, attach it
+        here. We print in <strong>single-color risograph</strong>, so complex
+        multi-color works may not reproduce well. High-contrast, bold linework
+        tends to look best.
       </p>
       <div class="file-upload-area" id="art-upload-area">
         <input
@@ -145,7 +154,12 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
         </div>
         <div class="file-upload-selected" id="art-selected" hidden>
           <span class="file-name" id="art-file-name"></span>
-          <button type="button" class="file-remove" id="art-remove" aria-label="Remove file">&times;</button>
+          <button
+            type="button"
+            class="file-remove"
+            id="art-remove"
+            aria-label="Remove file">&times;</button
+          >
         </div>
       </div>
       <p class="field-error" id="art-attachment-error"></p>
@@ -164,7 +178,6 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     <button type="submit" class="submit-btn" id="submit-btn">
       Send Into the Glass
     </button>
-
   </form>
 
   <div class="form-message" id="form-message" hidden></div>
@@ -215,7 +228,9 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     border: 1px solid rgba(184, 184, 204, 0.2);
     border-radius: 0.375rem;
     cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
     margin-bottom: 0;
   }
 
@@ -281,7 +296,9 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     background-color: var(--color-obsidian);
     border: 1px solid rgba(184, 184, 204, 0.2);
     border-radius: 0.25rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   input[type="text"]:focus,
@@ -322,7 +339,9 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     border-radius: 0.5rem;
     padding: 2rem 1.5rem;
     text-align: center;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
     cursor: pointer;
   }
 
@@ -422,11 +441,17 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     font-size: 1.1rem;
     letter-spacing: 0.04em;
     color: var(--color-void);
-    background: linear-gradient(135deg, var(--color-crystal), var(--color-gold));
+    background: linear-gradient(
+      135deg,
+      var(--color-crystal),
+      var(--color-gold)
+    );
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.1s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.1s ease;
     margin-top: 0.5rem;
   }
 
@@ -468,11 +493,20 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
   }
 </style>
 
-<script define:vars={{ maxFileSizeMB, acceptedExtensions, artMaxFileSizeMB, artAcceptedExtensions }}>
+<script
+  define:vars={{
+    maxFileSizeMB,
+    acceptedExtensions,
+    artMaxFileSizeMB,
+    artAcceptedExtensions,
+  }}
+>
   const form = document.getElementById("submission-form");
   const fileInput = document.getElementById("manuscript");
   const fileUploadArea = document.getElementById("file-upload-area");
-  const fileUploadContent = fileUploadArea.querySelector(".file-upload-content");
+  const fileUploadContent = fileUploadArea.querySelector(
+    ".file-upload-content"
+  );
   const fileSelected = document.getElementById("file-selected");
   const fileNameEl = document.getElementById("file-name");
   const fileRemoveBtn = document.getElementById("file-remove");
@@ -508,7 +542,7 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     submissionType = type;
 
     // Update radio button visual state
-    typeOptions.forEach(function(opt) {
+    typeOptions.forEach(function (opt) {
       var radio = opt.querySelector("input[type='radio']");
       opt.classList.toggle("selected", radio.value === type);
     });
@@ -518,30 +552,32 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
       manuscriptGroup.hidden = true;
       manuscriptReq.hidden = true;
       storyTitleLabel.textContent = "Art Title";
-      storyTitleGroup.querySelector("input").placeholder = "The title of your artwork";
+      storyTitleGroup.querySelector("input").placeholder =
+        "The title of your artwork";
       artReq.hidden = false;
       artHint.innerHTML =
-        'We print in <strong>single-color risograph</strong>, so complex multi-color works may not reproduce well. ' +
-        'High-contrast, bold linework tends to look best.';
+        "We print in <strong>single-color risograph</strong>, so complex multi-color works may not reproduce well. " +
+        "High-contrast, bold linework tends to look best.";
     } else {
       // Story (with optional art): show manuscript, make it required
       manuscriptGroup.hidden = false;
       manuscriptReq.hidden = false;
       storyTitleLabel.textContent = "Story Title";
-      storyTitleGroup.querySelector("input").placeholder = "The title of your manuscript";
+      storyTitleGroup.querySelector("input").placeholder =
+        "The title of your manuscript";
       artReq.hidden = true;
       artHint.innerHTML =
-        'Optional — if you have visual art to accompany your story, attach it here. ' +
-        'We print in <strong>single-color risograph</strong>, so complex multi-color works may not reproduce well. ' +
-        'High-contrast, bold linework tends to look best.';
+        "Optional — if you have visual art to accompany your story, attach it here. " +
+        "We print in <strong>single-color risograph</strong>, so complex multi-color works may not reproduce well. " +
+        "High-contrast, bold linework tends to look best.";
     }
 
     // Clear errors when switching
     ["manuscript", "art-attachment", "story-title"].forEach(clearError);
   }
 
-  typeOptions.forEach(function(opt) {
-    opt.addEventListener("click", function() {
+  typeOptions.forEach(function (opt) {
+    opt.addEventListener("click", function () {
       var radio = opt.querySelector("input[type='radio']");
       radio.checked = true;
       updateFormForType(radio.value);
@@ -663,7 +699,13 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     let hasError = false;
 
     // Clear previous errors
-    ["author-name", "email", "story-title", "manuscript", "art-attachment"].forEach(clearError);
+    [
+      "author-name",
+      "email",
+      "story-title",
+      "manuscript",
+      "art-attachment",
+    ].forEach(clearError);
 
     // Validate author name
     const authorName = form.authorName.value.trim();
@@ -724,10 +766,14 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
       // Read manuscript as base64 if provided
       var fileBase64 = null;
       if (file) {
-        fileBase64 = await new Promise(function(resolve, reject) {
+        fileBase64 = await new Promise(function (resolve, reject) {
           var reader = new FileReader();
-          reader.onload = function() { resolve(reader.result.split(",")[1]); };
-          reader.onerror = function() { reject(new Error("Failed to read file.")); };
+          reader.onload = function () {
+            resolve(reader.result.split(",")[1]);
+          };
+          reader.onerror = function () {
+            reject(new Error("Failed to read file."));
+          };
           reader.readAsDataURL(file);
         });
       }
@@ -735,10 +781,14 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
       // Read art file as base64 if provided
       var artBase64 = null;
       if (artFile) {
-        artBase64 = await new Promise(function(resolve, reject) {
+        artBase64 = await new Promise(function (resolve, reject) {
           var reader = new FileReader();
-          reader.onload = function() { resolve(reader.result.split(",")[1]); };
-          reader.onerror = function() { reject(new Error("Failed to read art file.")); };
+          reader.onload = function () {
+            resolve(reader.result.split(",")[1]);
+          };
+          reader.onerror = function () {
+            reject(new Error("Failed to read art file."));
+          };
           reader.readAsDataURL(artFile);
         });
       }
@@ -776,7 +826,8 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
       formMessage.className = "form-message success";
       formMessage.hidden = false;
     } catch (err) {
-      formMessage.textContent = err.message || "Submission failed. Please try again.";
+      formMessage.textContent =
+        err.message || "Submission failed. Please try again.";
       formMessage.className = "form-message error";
       formMessage.hidden = false;
       submitBtn.disabled = false;

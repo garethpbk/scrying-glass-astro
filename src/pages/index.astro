@@ -7,7 +7,7 @@ const turnstileSiteKey = import.meta.env.DEV
   : "0x4AAAAAACr1RbHvKjmyFiwf";
 ---
 
-<BaseLayout title="Scrying Glass ~ Sword & Sorcery Fiction">
+<BaseLayout title="Scrying Glass ~ Dark Fantasy Fiction">
   <section class="hero">
     <h1>Scrying Glass</h1>
     <p class="subtitle">
@@ -39,7 +39,14 @@ const turnstileSiteKey = import.meta.env.DEV
     <p>Sign up to be notified when Scrying Glass is available.</p>
     <form class="mailing-list-form" id="mailing-list-form">
       <label for="mailing-list-email" class="sr-only">Email address</label>
-      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input
+        type="text"
+        name="website"
+        class="hp-field"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
       <div class="form-row">
         <input
           type="email"
@@ -49,7 +56,13 @@ const turnstileSiteKey = import.meta.env.DEV
         />
         <button type="submit">Subscribe</button>
       </div>
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" data-size="invisible"></div>
+      <div
+        class="cf-turnstile"
+        data-sitekey={turnstileSiteKey}
+        data-theme="dark"
+        data-size="invisible"
+      >
+      </div>
       <p id="mailing-list-status" class="form-status" hidden></p>
     </form>
   </section>
@@ -250,7 +263,11 @@ const turnstileSiteKey = import.meta.env.DEV
     button.disabled = true;
     status.hidden = true;
 
-    const turnstileToken = (form.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement)?.value;
+    const turnstileToken = (
+      form.querySelector(
+        'input[name="cf-turnstile-response"]'
+      ) as HTMLInputElement
+    )?.value;
     if (!turnstileToken) {
       status.textContent = "Please wait for verification to complete.";
       status.className = "form-status error";
@@ -265,7 +282,9 @@ const turnstileSiteKey = import.meta.env.DEV
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: emailInput.value,
-          website: (form.querySelector('input[name="website"]') as HTMLInputElement).value,
+          website: (
+            form.querySelector('input[name="website"]') as HTMLInputElement
+          ).value,
           "cf-turnstile-response": turnstileToken,
         }),
       });
