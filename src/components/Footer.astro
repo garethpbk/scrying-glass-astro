@@ -3,6 +3,9 @@ const year = new Date().getFullYear();
 ---
 
 <footer>
+  <div class="orb-wrapper">
+    <img src="/pondering-my-orb.jpg" alt="Pondering my orb" class="orb-img" />
+  </div>
   <p class="copyright">&copy; {year} Argent Works LLC. All rights reserved.</p>
 </footer>
 
@@ -12,6 +15,20 @@ const year = new Date().getFullYear();
     padding: 2rem 1.5rem;
     border-top: 1px solid rgba(30, 160, 255, 0.15);
     background-color: var(--color-smoke);
+  }
+
+  .orb-wrapper {
+    max-width: 200px;
+    margin: 0 auto 1rem;
+  }
+
+  .orb-img {
+    display: block;
+    width: 100%;
+    filter: invert(1) brightness(1.5) contrast(4);
+    mix-blend-mode: screen;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 3%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%);
   }
 
   .tagline {
