@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { isOpen } from "../config";
 
 const maxFileSizeMB = 10;
 const acceptedExtensions = ".doc,.docx,.rtf,.pdf,.odt,.txt";
@@ -17,170 +18,198 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
 >
   <h1>Submit Your Work</h1>
 
-  <p class="intro" id="intro-text">
-    Ready to send your work into the glass? Fill out the form below. Make sure
-    you've reviewed our <a href="/submissions/">submission guidelines</a> first.
-  </p>
+  {
+    isOpen ? (
+      <>
+        <p class="intro" id="intro-text">
+          Ready to send your work into the glass? Fill out the form below. Make
+          sure you've reviewed our{" "}
+          <a href="/submissions/">submission guidelines</a> first.
+        </p>
 
-  <form id="submission-form" novalidate enctype="multipart/form-data">
-    <fieldset class="type-selector" id="type-selector">
-      <legend>What are you submitting? <span class="required">*</span></legend>
-      <div class="type-options">
-        <label class="type-option selected">
-          <input type="radio" name="submissionType" value="story" checked />
-          <span class="type-label">Story</span>
-          <span class="type-desc">A manuscript, with optional art</span>
-        </label>
-        <label class="type-option">
-          <input type="radio" name="submissionType" value="art" />
-          <span class="type-label">Art Only</span>
-          <span class="type-desc">Visual art without a manuscript</span>
-        </label>
-      </div>
-    </fieldset>
+        <form id="submission-form" novalidate enctype="multipart/form-data">
+          <fieldset class="type-selector" id="type-selector">
+            <legend>
+              What are you submitting? <span class="required">*</span>
+            </legend>
+            <div class="type-options">
+              <label class="type-option selected">
+                <input
+                  type="radio"
+                  name="submissionType"
+                  value="story"
+                  checked
+                />
+                <span class="type-label">Story</span>
+                <span class="type-desc">A manuscript, with optional art</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="submissionType" value="art" />
+                <span class="type-label">Art Only</span>
+                <span class="type-desc">Visual art without a manuscript</span>
+              </label>
+            </div>
+          </fieldset>
 
-    <div class="form-group">
-      <label for="author-name"
-        >Author Name <span class="required">*</span></label
-      >
-      <input
-        type="text"
-        id="author-name"
-        name="authorName"
-        required
-        placeholder="Your name or pen name"
-        autocomplete="name"
-      />
-      <p class="field-error" id="author-name-error"></p>
-    </div>
+          <div class="form-group">
+            <label for="author-name">
+              Author Name <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="author-name"
+              name="authorName"
+              required
+              placeholder="Your name or pen name"
+              autocomplete="name"
+            />
+            <p class="field-error" id="author-name-error" />
+          </div>
 
-    <div class="form-group">
-      <label for="email">Email <span class="required">*</span></label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        required
-        placeholder="you@example.com"
-        autocomplete="email"
-      />
-      <p class="field-error" id="email-error"></p>
-    </div>
+          <div class="form-group">
+            <label for="email">
+              Email <span class="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+            <p class="field-error" id="email-error" />
+          </div>
 
-    <div class="form-group" id="story-title-group">
-      <label for="story-title">
-        <span id="story-title-label">Story Title</span>
-        <span class="required">*</span>
-      </label>
-      <input
-        type="text"
-        id="story-title"
-        name="storyTitle"
-        required
-        placeholder="The title of your manuscript"
-      />
-      <p class="field-error" id="story-title-error"></p>
-    </div>
+          <div class="form-group" id="story-title-group">
+            <label for="story-title">
+              <span id="story-title-label">Story Title</span>
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="story-title"
+              name="storyTitle"
+              required
+              placeholder="The title of your manuscript"
+            />
+            <p class="field-error" id="story-title-error" />
+          </div>
 
-    <div class="form-group" id="manuscript-group">
-      <label for="manuscript">
-        Manuscript <span class="required" id="manuscript-req">*</span>
-      </label>
-      <div class="file-upload-area" id="file-upload-area">
-        <input
-          type="file"
-          id="manuscript"
-          name="manuscript"
-          required
-          accept={`${acceptedExtensions},${acceptedMimeTypes}`}
-        />
-        <div class="file-upload-content">
-          <span class="file-upload-icon">&#x1F4DC;</span>
-          <p class="file-upload-text">
-            <strong>Choose a file</strong> or drag it here
-          </p>
-          <p class="file-upload-hint">
-            .doc, .docx, .rtf, .pdf, .odt, or .txt — max {maxFileSizeMB}MB
-          </p>
-        </div>
-        <div class="file-upload-selected" id="file-selected" hidden>
-          <span class="file-name" id="file-name"></span>
-          <button
-            type="button"
-            class="file-remove"
-            id="file-remove"
-            aria-label="Remove file">&times;</button
-          >
-        </div>
-      </div>
-      <p class="field-error" id="manuscript-error"></p>
-    </div>
+          <div class="form-group" id="manuscript-group">
+            <label for="manuscript">
+              Manuscript{" "}
+              <span class="required" id="manuscript-req">
+                *
+              </span>
+            </label>
+            <div class="file-upload-area" id="file-upload-area">
+              <input
+                type="file"
+                id="manuscript"
+                name="manuscript"
+                required
+                accept={`${acceptedExtensions},${acceptedMimeTypes}`}
+              />
+              <div class="file-upload-content">
+                <span class="file-upload-icon">&#x1F4DC;</span>
+                <p class="file-upload-text">
+                  <strong>Choose a file</strong> or drag it here
+                </p>
+                <p class="file-upload-hint">
+                  .doc, .docx, .rtf, .pdf, .odt, or .txt — max {maxFileSizeMB}MB
+                </p>
+              </div>
+              <div class="file-upload-selected" id="file-selected" hidden>
+                <span class="file-name" id="file-name" />
+                <button
+                  type="button"
+                  class="file-remove"
+                  id="file-remove"
+                  aria-label="Remove file"
+                >
+                  &times;
+                </button>
+              </div>
+            </div>
+            <p class="field-error" id="manuscript-error" />
+          </div>
 
-    <div class="form-group">
-      <label for="cover-letter">Brief Cover Letter</label>
-      <textarea
-        id="cover-letter"
-        name="coverLetter"
-        rows="4"
-        placeholder="A few sentences about yourself and any publication credits (optional)"
-      ></textarea>
-    </div>
+          <div class="form-group">
+            <label for="cover-letter">Brief Cover Letter</label>
+            <textarea
+              id="cover-letter"
+              name="coverLetter"
+              rows="4"
+              placeholder="A few sentences about yourself and any publication credits (optional)"
+            />
+          </div>
 
-    <div class="form-group" id="art-group">
-      <label for="art-attachment">
-        Art Attachment <span class="required" id="art-req" hidden>*</span>
-      </label>
-      <p class="field-hint" id="art-hint">
-        Optional — if you have visual art to accompany your story, attach it
-        here. We print in <strong>single-color risograph</strong>, so complex
-        multi-color works may not reproduce well. High-contrast, bold linework
-        tends to look best.
-      </p>
-      <div class="file-upload-area" id="art-upload-area">
-        <input
-          type="file"
-          id="art-attachment"
-          name="artAttachment"
-          accept={`${artAcceptedExtensions},${artAcceptedMimeTypes}`}
-        />
-        <div class="file-upload-content">
-          <span class="file-upload-icon">&#x1F58C;&#xFE0F;</span>
-          <p class="file-upload-text">
-            <strong>Choose an image</strong> or drag it here
-          </p>
-          <p class="file-upload-hint">
-            .jpg, .png, .tiff, or .bmp — max {artMaxFileSizeMB}MB
-          </p>
-        </div>
-        <div class="file-upload-selected" id="art-selected" hidden>
-          <span class="file-name" id="art-file-name"></span>
-          <button
-            type="button"
-            class="file-remove"
-            id="art-remove"
-            aria-label="Remove file">&times;</button
-          >
-        </div>
-      </div>
-      <p class="field-error" id="art-attachment-error"></p>
-    </div>
+          <div class="form-group" id="art-group">
+            <label for="art-attachment">
+              Art Attachment{" "}
+              <span class="required" id="art-req" hidden>
+                *
+              </span>
+            </label>
+            <p class="field-hint" id="art-hint">
+              Optional — if you have visual art to accompany your story, attach
+              it here. We print in <strong>single-color risograph</strong>, so
+              complex multi-color works may not reproduce well. High-contrast,
+              bold linework tends to look best.
+            </p>
+            <div class="file-upload-area" id="art-upload-area">
+              <input
+                type="file"
+                id="art-attachment"
+                name="artAttachment"
+                accept={`${artAcceptedExtensions},${artAcceptedMimeTypes}`}
+              />
+              <div class="file-upload-content">
+                <span class="file-upload-icon">&#x1F58C;&#xFE0F;</span>
+                <p class="file-upload-text">
+                  <strong>Choose an image</strong> or drag it here
+                </p>
+                <p class="file-upload-hint">
+                  .jpg, .png, .tiff, or .bmp — max {artMaxFileSizeMB}MB
+                </p>
+              </div>
+              <div class="file-upload-selected" id="art-selected" hidden>
+                <span class="file-name" id="art-file-name" />
+                <button
+                  type="button"
+                  class="file-remove"
+                  id="art-remove"
+                  aria-label="Remove file"
+                >
+                  &times;
+                </button>
+              </div>
+            </div>
+            <p class="field-error" id="art-attachment-error" />
+          </div>
 
-    <div class="form-group">
-      <label for="additional-notes">Anything else we should know?</label>
-      <textarea
-        id="additional-notes"
-        name="additionalNotes"
-        rows="3"
-        placeholder="Simultaneous submission notice, content warnings, etc. (optional)"
-      ></textarea>
-    </div>
+          <div class="form-group">
+            <label for="additional-notes">Anything else we should know?</label>
+            <textarea
+              id="additional-notes"
+              name="additionalNotes"
+              rows="3"
+              placeholder="Simultaneous submission notice, content warnings, etc. (optional)"
+            />
+          </div>
 
-    <button type="submit" class="submit-btn" id="submit-btn">
-      Send Into the Glass
-    </button>
-  </form>
+          <button type="submit" class="submit-btn" id="submit-btn">
+            Send Into the Glass
+          </button>
+        </form>
 
-  <div class="form-message" id="form-message" hidden></div>
+        <div class="form-message" id="form-message" hidden />
+      </>
+    ) : (
+      <p class="closed-message">Submissions are currently closed</p>
+    )
+  }
 </BaseLayout>
 
 <style>
@@ -490,6 +519,21 @@ const artAcceptedMimeTypes = "image/jpeg,image/png,image/tiff,image/bmp";
     color: var(--color-ember);
     background-color: rgba(196, 94, 44, 0.1);
     border: 1px solid rgba(196, 94, 44, 0.25);
+  }
+
+  .closed-message {
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    margin-top: 2rem;
+    background-color: rgba(196, 94, 44, 0.15);
+    color: var(--color-ember);
+    border: 1px solid rgba(196, 94, 44, 0.3);
   }
 </style>
 
