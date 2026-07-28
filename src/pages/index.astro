@@ -18,6 +18,18 @@ const turnstileSiteKey = import.meta.env.DEV
     </div>
   </section>
 
+  <aside class="announcement" aria-label="Announcement">
+    <p class="announcement-title">An update on Scrying Glass</p>
+    <p>
+      We anticipate publishing the first edition in early September 2026. If you
+      are still waiting for a response, thank you for your continued patience!
+      We received many more submissions than expected and our timelines have
+      been delayed, but the project is moving full-steam ahead. We've learned a
+      lot from this round of submissions to improve our response times in the
+      future.
+    </p>
+  </aside>
+
   <hr />
 
   <section class="section">
@@ -136,6 +148,28 @@ const turnstileSiteKey = import.meta.env.DEV
     opacity: 0;
     transform: scale(0.3) translateY(-40px);
     pointer-events: none;
+  }
+
+  .announcement {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    background-color: rgba(212, 168, 67, 0.08);
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    border-radius: 0.25rem;
+  }
+
+  .announcement p:last-child {
+    margin-bottom: 0;
+  }
+
+  .announcement-title {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
   }
 
   .subtitle {
@@ -551,6 +585,10 @@ const turnstileSiteKey = import.meta.env.DEV
 
     .cta {
       padding: 1.5rem 1rem;
+    }
+
+    .announcement {
+      padding: 1rem;
     }
 
     .form-row {
